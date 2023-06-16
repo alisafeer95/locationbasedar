@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Add a cursor to track mouse movements -->
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+      <!-- Add a box entity that will move with the cursor -->
+      <a-box id="movingBox" position="0 1.5 -3" color="blue"></a-box>
+      
+    </a-scene>
+
+    <script>
+      AFRAME.registerComponent('cursor-move', {
+        init: function () {
+          var movingBox = this.el;
+          movingBox.addEventListener('loaded', function () {
+            movingBox.setAttribute('cursor-move', '');
+          });
+        },
+        tick: function () {
+          var cursorPosition = this.el.components.cursor.position;
+          var boxPosition = this.el.getAttribute('position');
+          boxPosition.x = cursorPosition.x;
+          boxPosition.y = cursorPosition.y;
+          boxPosition.z = cursorPosition.z;
+          this.el.setAttribute('position', boxPosition);
+        }
+      });
+    </script>
+  </body>
+</html>

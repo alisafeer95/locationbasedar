@@ -1,0 +1,27 @@
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+<body style='margin : 0px; overflow: hidden;'>
+
+    
+    <a-scene embedded arjs='sourceType: webcam;'>
+		<video id="myVideo" src="/medium.mp4" width="10" height="10"></video>
+        <a-marker  type="pattern" url="/pattern-usmanbhai.patt"  markerhandler="true">
+            <a-plane position='0 0 0' scale="2 2 2" width="2" rotation="-90 90 0" 
+   material='transparent:true; opacity: 0.5; src:#myVideo'></a-plane>
+		</a-marker>
+		<a-entity camera></a-entity>
+	</a-scene>
+
+    <script>
+        var video = document.getElementById("myVideo");
+        var marker = document.querySelector("a-marker");
+
+marker.addEventListener("markerFound", function() {
+  video.play();
+});
+
+marker.addEventListener("markerLost", function() {
+  video.pause();
+});
+    </script>
+</body>

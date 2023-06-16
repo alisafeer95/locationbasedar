@@ -1,0 +1,37 @@
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+<body style='margin : 0px; overflow: hidden;'>
+
+    <a-scene cursor="rayOrigin: mouse" embedded arjs="debugUIEnabled: false" vr-mode-ui="enabled: false"
+        >
+        <video id="video" src="/medium.mp4" autoplay="true" loop="true"></video>
+    <a-marker-camera></a-marker-camera>
+    <a-plane id="video-plane" position="0 0 -4" rotation="-90 0 0" width="4" height="2" material="src: #video"></a-plane>
+</a-scene>
+
+<script>
+
+        console.log('setup called')
+        const videoPlane = document.getElementById('video-plane');
+        const scene = document.querySelector('a-scene');
+        scene.addEventListener('loaded', function () {
+            console.log('in loaded')
+            const cameraEl = scene.querySelector('[camera]');
+            scene.addEventListener('render-target-loaded', function () {
+                console.log('in target loaded')
+                const renderer = scene.renderer;
+                const render = renderer.render.bind(renderer);
+                const setPositionAndRotation = function () {
+                    const cameraPosition = cameraEl.object3D.getWorldPosition(new THREE.Vector3());
+                    const cameraRotation = cameraEl.object3D.getWorldQuaternion(new THREE.Quaternion());
+                    videoPlane.setAttribute('position', cameraPosition);
+                    videoPlane.setAttribute('rotation', cameraRotation);
+                    requestAnimationFrame(setPositionAndRotation);
+                };
+                requestAnimationFrame(setPositionAndRotation);
+            });
+        });
+    
+</script>
+
+</body>

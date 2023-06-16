@@ -1,0 +1,177 @@
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene  cursor="rayOrigin: mouse" raycaster="objects: .clickable; far: 100; interval: 100">        
+            
+             <a-video position ="0 0 -3" class="clickable" id="vid" material="src:/bikinggirl.mp4" autoplay="true" loop="true" width="2" height="2" opacity="0.5"> </a-video>
+
+        <a-entity camera></a-entity>
+      </a-scene>
+      <script>
+        // Get the image element
+       // const image = document.querySelector('a-image');
+        // Wait for the image to finish loading
+//         const video = document.getElementById('vid')
+//         const plane = document.querySelector('a-plane')
+//         var Dragging=false;
+//         document.addEventListener('DOMContentLoaded', function() {
+//           console.log('Image loaded!');
+//         plane.addEventListener("mousedown",function(){
+//             Dragging=true;
+//             plane.setAttribute('material','src','#vid');
+//             video.play();
+//         })
+//         plane.addEventListener("mouseup",function(){
+//             video.pause();
+//             Dragging=false;
+//         })
+//         plane.addEventListener('mousemove', function (event) {
+//     if (Dragging) {
+//         console.log('mouse moving')
+//       // Calculate new position based on mouse position
+//       var newPosition = calculatePosition(event.clientX, event.clientY);
+//       // Set new position
+//       plane.setAttribute('position', newPosition);
+//     }
+//   });
+        
+//     document.addEventListener("touchstart", function() {
+//   video.pause();
+// });
+       // })
+          // Register an event listener for 'click' event
+          //image.addEventListener('click', function() {
+            //console.log('Plane clicked!');
+            //image.setAttribute('visible','false')
+            //const plane = document.querySelector('a-plane');
+            //plane.setAttribute('visible','true')
+            // Play the video when the image is clicked
+        
+            //const plane = document.querySelector('a-video')
+        // Set the video as a texture on the plane
+        //plane.setAttribute('visible','true'); 
+            // const video = document.getElementById('vid');
+            // video.setAttribute('visible','true');
+            // video.play(); 
+          //});
+       // });
+        // Get the video element
+         //const video = document.getElementById('vid');
+        // // Set autoplay to false
+         //video.setAttribute('autoplay', 'false');
+        // // Set the video to loop
+        // video.setAttribute('loop', 'true');
+        // // Hide the video element initially
+         //video.setAttribute('visible', 'false');
+
+       
+//          const videoEl = document.querySelector('a-video');
+//   let isDragging = false;
+//   let previousMousePosition = { x: 0, y: 0 };
+//   const sensitivity = 0.05;
+
+//   videoEl.addEventListener('mousedown', event => {
+//     isDragging = true;
+//     previousMousePosition.x = event.clientX;
+//     previousMousePosition.y = event.clientY;
+//   });
+
+//   videoEl.addEventListener('mouseup', event => {
+//     isDragging = false;
+//   });
+
+//   videoEl.addEventListener('mousemove', event => {
+//     if (!isDragging) return;
+
+//     const delta = {
+//       x: event.clientX - previousMousePosition.x,
+//       y: event.clientY - previousMousePosition.y
+//     };
+//     videoEl.object3D.position.x += delta.x * sensitivity;
+//     videoEl.object3D.position.y -= delta.y * sensitivity;
+//     previousMousePosition = {
+//       x: event.clientX,
+//       y: event.clientY
+//     };
+//   });
+
+
+const video = document.getElementById('vid');
+let isDragging = false;
+let initialPosition = { x: 0, y: 0 };
+let delta ={x:0,y:0}
+const sensitivity = 0.5;
+console.log(video)
+video.addEventListener('mousedown', event => {
+    console.log('touchstarted')
+    
+  isDragging = true;
+//   previousTouchPosition.x = event.clientX;
+//   previousTouchPosition.y = event.clientY;
+initialPosition = { x: event.detail.mouseEvent.clientX, y: event.detail.mouseEvent.clientY };
+console.log(initialPosition)
+// console.log(initialPosition)
+});
+
+document.addEventListener('mouseup', event => {
+   //console.log(event)
+    console.log('touchend')
+    //video.setAttribute('position',`${delta.x} ${delta.y}`);
+  isDragging = false;
+  
+});
+
+// video.addEventListener('mousemove', event => {
+//     console.log("touch move")
+//   if (!isDragging) return;
+
+//   const delta = {
+//     x: event.detail.mouseEvent.clientX - 10,
+//     y: event.detail.mouseEvent.clientY - 10
+//   };
+//   console.log(delta)
+//   video.style.transform = `translate(${delta.x * sensitivity}px, ${delta.y * sensitivity}px)`;
+//   //video.object3D.position.x += delta.x * sensitivity;
+//   //video.object3D.position.y -= delta.y * sensitivity;
+// //   previousTouchPosition = {
+// //     x: event.clientX,
+// //     y: event.clientY
+// //   };
+// });
+
+// document.addEventListener('mousemove', event => {
+//     console.log('cursor ')
+//     if (!isDragging) return;
+
+//     const delta = {
+//       x: event.detail.intersection.uv.x - initialPosition.x,
+//       y: event.detail.intersection.uv.y - initialPosition.y
+//     };
+//     video.object3D.position.x += delta.x * sensitivity;
+//     video.object3D.position.y -= delta.y * sensitivity;
+//     initialPosition = {
+//       x: event.detail.intersection.uv.x,
+//       y: event.detail.intersection.uv.y
+//     };
+//   });
+video.addEventListener('mousemove', event => {
+  if (!isDragging) return;
+
+  console.log(event)
+   delta = {
+    x: event.clientX - initialPosition.x,
+    y: event.clientY - initialPosition.y
+  };
+console.log(delta)
+  //video.style.transform = `translate(${delta.x * sensitivity}px, ${delta.y * sensitivity}px)`;
+  video.style.position = 'absolute';
+  video.style.transform = `translate(${delta.x * sensitivity}px, ${delta.y * sensitivity}px)`;
+  initialPosition = {
+    x: event.clientX,
+    y: event.clientY
+  };
+});
+
+      </script>
+</body>

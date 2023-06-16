@@ -1,0 +1,73 @@
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene  cursor="rayOrigin: mouse" raycaster="objects: .clickable; far: 100; interval: 100">        
+            <video id="vid" src="/medium.mp4" autoplay="false" loop="true"></video>
+     <a-plane
+     position ="0 0 -3" material="src:#vid;"src="#vid" visible="true" width="2" height="2"></a-plane>        
+    <a-video position="0 0 -3" src="/medium.mp4" visible="true" width="2" height="2" opacity="0.7"look-at="[camera]"></a-video>
+        <a-entity camera></a-entity>
+      </a-scene>
+      <script>
+        // Get the image element
+       // const image = document.querySelector('a-image');
+        // Wait for the image to finish loading
+       // document.addEventListener('DOMContentLoaded', function() {
+         // console.log('Image loaded!');
+          // Register an event listener for 'click' event
+          //image.addEventListener('click', function() {
+            //console.log('Plane clicked!');
+            //image.setAttribute('visible','false')
+            //const plane = document.querySelector('a-plane');
+            //plane.setAttribute('visible','true')
+            // Play the video when the image is clicked
+        
+            //const plane = document.querySelector('a-video')
+        // Set the video as a texture on the plane
+        //plane.setAttribute('visible','true'); 
+            // const video = document.getElementById('vid');
+            // video.setAttribute('visible','true');
+            // video.play(); 
+          //});
+       // });
+        // Get the video element
+         //const video = document.getElementById('vid');
+        // // Set autoplay to false
+         //video.setAttribute('autoplay', 'false');
+        // // Set the video to loop
+        // video.setAttribute('loop', 'true');
+        // // Hide the video element initially
+         //video.setAttribute('visible', 'false');
+
+       
+         const videoEl = document.querySelector('a-video');
+  let isDragging = false;
+  let previousMousePosition = { x: 0, y: 0 };
+  const sensitivity = 0.05;
+
+  videoEl.addEventListener('mousedown', event => {
+    isDragging = true;
+    previousMousePosition.x = event.clientX;
+    previousMousePosition.y = event.clientY;
+  });
+
+  videoEl.addEventListener('mouseup', event => {
+    isDragging = false;
+  });
+
+  videoEl.addEventListener('mousemove', event => {
+    if (!isDragging) return;
+
+    const delta = {
+      x: event.clientX - previousMousePosition.x,
+      y: event.clientY - previousMousePosition.y
+    };
+    videoEl.object3D.position.x += delta.x * sensitivity;
+    videoEl.object3D.position.y -= delta.y * sensitivity;
+    previousMousePosition = {
+      x: event.clientX,
+      y: event.clientY
+    };
+  });
+      </script>
+</body>
